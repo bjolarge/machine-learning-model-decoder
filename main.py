@@ -3,10 +3,15 @@ from pydantic import BaseModel
 import numpy as np
 import joblib
 import traceback
+from water import app as water_app;
+from fuelefficiency import app as fuel_app;
 
 app = FastAPI()
 
-#LOAD MODEL (once at startup)
+app.mount("/water", water_app)
+app.mount("/fuel", fuel_app)
+
+
 try:
     model = joblib.load("india_air_quality.joblib")
 except Exception as e:
