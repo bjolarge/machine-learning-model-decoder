@@ -5,7 +5,7 @@ import numpy as np
 from typing import List
 
 app = FastAPI(
-    title="Fuel Efficiency Prediction API",
+    title="Fuel Efficiency Prediction or analyzer API",
     version="1.0.0"
 )
 
