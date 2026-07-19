@@ -111,7 +111,8 @@ def predict(data: FuelInput):
             data.model_year
         ]
         X = np.array(features, dtype=np.float32).reshape(1, -1)
-        prediction = model.predict(X)[0]
+        #prediction = model.predict(X)[0]
+        prediction = float(np.ravel(model.predict(X))[0])
 
         efficiency_label = classify_efficiency(prediction)
 
