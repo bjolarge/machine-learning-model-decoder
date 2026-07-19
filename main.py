@@ -166,7 +166,7 @@ def predict(data: AirQualityInput):
             data.NH3, data.CO, data.SO2, data.O3,
             data.Benzene, data.Toluene, data.Xylene
         ]], dtype=np.float32)
-
+#prediction path
         prediction = model.predict(features)
 
         if hasattr(prediction, "numpy"):
