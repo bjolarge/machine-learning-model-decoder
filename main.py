@@ -126,22 +126,45 @@ def home():
 
 
 # 🔹 PREDICTION ENDPOINT
+# @app.post("/predict")
+# def predict(data: AirQualityInput):
+#     try:
+#         features = np.array([[
+#             data.PM25,
+#             data.PM10,
+#             data.NO,
+#             data.NO2,
+#             data.NOx,
+#             data.NH3,
+#             data.CO,
+#             data.SO2,
+#             data.O3,
+#             data.Benzene,
+#             data.Toluene,
+#             data.Xylene
+#         ]], dtype=np.float32)
+
+#         prediction = model.predict(features)
+
+#         if hasattr(prediction, "numpy"):
+#             prediction = prediction.numpy()
+
+#         return {
+#             "prediction": prediction.tolist()
+#         }
+
+#     except Exception as e:
+#         print("Prediction failed")
+#         traceback.print_exc()
+#         raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/predict")
 def predict(data: AirQualityInput):
     try:
         features = np.array([[
-            data.PM25,
-            data.PM10,
-            data.NO,
-            data.NO2,
-            data.NOx,
-            data.NH3,
-            data.CO,
-            data.SO2,
-            data.O3,
-            data.Benzene,
-            data.Toluene,
-            data.Xylene
+            data.PM25, data.PM10, data.NO, data.NO2, data.NOx,
+            data.NH3, data.CO, data.SO2, data.O3,
+            data.Benzene, data.Toluene, data.Xylene
         ]], dtype=np.float32)
 
         prediction = model.predict(features)
@@ -149,12 +172,16 @@ def predict(data: AirQualityInput):
         if hasattr(prediction, "numpy"):
             prediction = prediction.numpy()
 
+        aqi_value = float(np.ravel(prediction)[0])
+        classification = classify_air_quality(aqi_value)
+
         return {
-            "prediction": prediction.tolist()
+            "aqi": aqi_value,
+            "category": classification["category"],
+            "is_safe": classification["is_safe"]
         }
 
     except Exception as e:
-        print("🔥 Prediction failed")
+        print("Prediction failed")
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
-
