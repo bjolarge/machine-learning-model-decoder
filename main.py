@@ -158,6 +158,7 @@ def home():
 #         traceback.print_exc()
 #         raise HTTPException(status_code=500, detail=str(e))
 
+#predict endpoint
 @app.post("/predict")
 def predict(data: AirQualityInput):
     try:
